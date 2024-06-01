@@ -1,5 +1,5 @@
 import torch
-from ..session import session
+from ..session import post
 
 class Generation:
     @classmethod
@@ -20,9 +20,7 @@ class Generation:
         json = {
             'inputs': text,
         }
-        response = session.post(endpoint, json=json)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, json=json)
         result = response.json()
         generated = ''.join(x['generated_text'] for x in result)
         return generated 
@@ -46,9 +44,7 @@ class Translation:
         json = {
             'inputs': text,
         }
-        response = session.post(endpoint, json=json)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, json=json)
         result = response.json()
         translation = ''.join(x['translation_text'] for x in result)
         return translation 
@@ -76,9 +72,7 @@ class QuestionAnswering:
                 'context': context,
             },
         }
-        response = session.post(endpoint, json=json)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, json=json)
         result = response.json()
         answer = result['answer']
         return answer
@@ -102,9 +96,7 @@ class FeatureExtraction:
         json = {
             'inputs': text,
         }
-        response = session.post(endpoint, json=json)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, json=json)
         result = response.json()
         cond = torch.tensor(result, dtype=torch.float16).to('cuda')
         return ([[cond, {}]],)

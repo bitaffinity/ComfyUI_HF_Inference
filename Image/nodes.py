@@ -1,4 +1,4 @@
-from ..session import session
+from ..session import post
 from io import BytesIO
 from PIL import Image
 import numpy as np
@@ -21,9 +21,7 @@ class TextToImage:
 
     def inference(self, endpoint, prompt):
         payload = {"inputs": prompt}
-        response = session.post(endpoint, json=payload)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, json=payload)
         
         result = BytesIO(response.content)
         image = Image.open(result)
@@ -48,9 +46,7 @@ class Classification:
     TITLE = "HF Image Classification"
 
     def inference(self, endpoint, image):
-        response = session.post(endpoint, data=image)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, data=image)
         result = response.json()
         return {"ui": {"text": result}}
     
@@ -70,9 +66,7 @@ class ObjectDetection:
     TITLE = "HF Image Object Detection"
 
     def inference(self, endpoint, image):
-        response = session.post(endpoint, data=image)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, data=image)
         result = response.json()
         return {"ui": {"text": result}}
     
@@ -92,9 +86,7 @@ class Segmentation:
     TITLE = "HF Image Segmentation"
 
     def inference(self, endpoint, image):
-        response = session.post(endpoint, data=image)
-        if response.status_code != 200:
-            raise Exception(response.text)
+        response = post(endpoint, data=image)
         result = response.json()
         return {"ui": {"text": result}}
 
