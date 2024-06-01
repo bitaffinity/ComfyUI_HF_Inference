@@ -1,4 +1,36 @@
 from ..session import session
+from io import BytesIO
+from PIL import Image
+import numpy as np
+import torch
+
+class TextToImage:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "endpoint": ("STRING", {}),
+                "prompt": ("STRING", {"multiline": True}),
+            }
+        }
+
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "inference"
+    CATEGORY = "HF_Inference/Image/TextToImage"
+    TITLE = "HF Image TextToImage"
+
+    def inference(self, endpoint, prompt):
+        payload = {"inputs": prompt}
+        response = session.post(endpoint, json=payload)
+        if response.status_code != 200:
+            raise Exception(response.text)
+        
+        result = BytesIO(response.content)
+        image = Image.open(result)
+        image = np.array(image).astype(np.float32) / 255.0
+        image = torch.from_numpy(image)[None,]
+        mask = torch.zeros((64, 64), device="cpu")
+        return (image, mask)
 
 class Classification:
     @classmethod
@@ -70,4 +102,5 @@ NODE_CLASS_MAPPINGS = {
     "Classification": Classification,
     "ObjectDetection": ObjectDetection,
     "Segmentation": Segmentation,
+    "TextToImage": TextToImage,
 }
