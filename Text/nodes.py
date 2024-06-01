@@ -1,6 +1,32 @@
 import torch
 from ..session import session
 
+class Generation:
+    @classmethod
+    def INPUT_TYPES(s):
+        return {
+            "required": {
+                "endpoint": ("STRING", {}),
+                "text": ("STRING", {"multiline": True}),
+            }
+        }
+    
+    RETURN_TYPES = ("STRING",)
+    FUNCTION = "inference"
+    CATEGORY = "HF_Inference/Text/Generation"
+    TITLE = "HF Text Generation"
+
+    def inference(self, endpoint, text):
+        json = {
+            'inputs': text,
+        }
+        response = session.post(endpoint, json=json)
+        if response.status_code != 200:
+            raise Exception(response.text)
+        result = response.json()
+        generated = ''.join(x['generated_text'] for x in result)
+        return generated 
+
 class Translation:
     @classmethod
     def INPUT_TYPES(s):
@@ -84,7 +110,8 @@ class FeatureExtraction:
         return ([[cond, {}]],)
 
 NODE_CLASS_MAPPINGS = {
-    "TextFeatureExtraction": FeatureExtraction,
+    "FeatureExtraction": FeatureExtraction,
     "QuestionAnswering": QuestionAnswering,
     "Translation": Translation,
+    "Generation": Generation,
 }
