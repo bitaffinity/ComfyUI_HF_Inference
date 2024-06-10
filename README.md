@@ -20,17 +20,29 @@ Export HF_AUTH_TOKEN with one of your [Hugging Face tokens](https://huggingface.
 ### Run ComfyUI
 `HF_AUTH_TOKEN=hf_1111111111111111111111111111111111 python main.py`
 
-## Usage
+## Nodes
+
+> [!WARNING]
+> Inference API (serverless) requires a model 10GB or below and fails for random reasons on different models.
 
 ### Text
 
-* Feature Extraction (ie: T5 encoder embeddings, BERT, etc.)
-* Question Answering (ie: roberta-base for QA)
-* Translation (ie: T5 Small)
-* Generation (ie: zephyr-7b-beta)
+* Feature Extraction
+    - [facebook/bart-base](https://huggingface.co/facebook/bart-base)
+* Question Answering
+    - [deepset/roberta-base-squad2](https://huggingface.co/deepset/roberta-base-squad2)
+* Translation
+    - [google-t5/t5-base](https://huggingface.co/google-t5/t5-base)
+* Generation
+    - [HuggingFaceH4/zephyr-7b-beta](https://huggingface.co/HuggingFaceH4/zephyr-7b-beta)
 
 ### Image
 
-* Classification (ie: vit-base-patch16-224)
-* Object Detection (ie: detr-resnet-50)
-* Segmentation (ie: detr-resnet-50)
+* Classification
+    - [google/vit-base-patch16-224](https://huggingface.co/google/vit-base-patch16-224)
+* Object Detection
+    - [facebook/detr-resnet-50](https://huggingface.co/facebook/detr-resnet-50)
+* Segmentation
+    - [facebook/detr-resnet-50-panoptic](https://huggingface.co/facebook/detr-resnet-50-panoptic)
+* TextToImage
+    - [sd-community/sdxl-flash](https://huggingface.co/sd-community/sdxl-flash)

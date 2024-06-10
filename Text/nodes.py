@@ -13,7 +13,7 @@ class Generation:
     
     RETURN_TYPES = ("STRING",)
     FUNCTION = "inference"
-    CATEGORY = "HF_Inference/Text/Generation"
+    CATEGORY = "HF_Inference/Text"
     TITLE = "HF Text Generation"
 
     def inference(self, endpoint, text):
@@ -23,7 +23,7 @@ class Generation:
         response = post(endpoint, json=json)
         result = response.json()
         generated = ''.join(x['generated_text'] for x in result)
-        return generated 
+        return generated
 
 class Translation:
     @classmethod
@@ -37,7 +37,7 @@ class Translation:
     
     RETURN_TYPES = ("STRING",)
     FUNCTION = "inference"
-    CATEGORY = "HF_Inference/Text/Translation"
+    CATEGORY = "HF_Inference/Text"
     TITLE = "HF Text Translation"
 
     def inference(self, endpoint, text):
@@ -62,7 +62,7 @@ class QuestionAnswering:
     
     RETURN_TYPES = ("STRING",)
     FUNCTION = "inference"
-    CATEGORY = "HF_Inference/Text/QuestionAnswering"
+    CATEGORY = "HF_Inference/Text"
     TITLE = "HF Text Question Answering"
 
     def inference(self, endpoint, question, context):
@@ -89,7 +89,7 @@ class FeatureExtraction:
     
     RETURN_TYPES = ("CONDITIONING",)
     FUNCTION = "inference"
-    CATEGORY = "HF_Inference/Text/FeatureExtraction"
+    CATEGORY = "HF_Inference/Text"
     TITLE = "HF Text Feature Extraction"
 
     def inference(self, endpoint, text):
